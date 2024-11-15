@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Components.h"
+#include "Core/Components.h"
 
 class Object
 {
@@ -17,6 +17,4 @@ public:
 protected:
 	Transform2D m_Transform{};
 	Sprite m_Sprite{};
-private:
-	mutable Rectangle m_BoundingBox{};
 };

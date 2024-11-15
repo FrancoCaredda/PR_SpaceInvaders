@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Object.h"
-
 #include "raylib.h"
 
 #include <vector>
@@ -16,7 +14,8 @@ public:
 
 	void SetFramebufferSize(const Vector2& size);
 
-	void DrawObjects(const std::vector<Object*>& objects);
+	void DrawObjects(const std::vector<class Object*>& objects);
+	void DrawProjectiles(const std::vector<struct Projectile>& projectiles);
 
 	inline Vector2 GetFramebufferSize() const noexcept { return m_FramebufferSize; }
 	inline float GetAspectRatio() const noexcept { return m_FramebufferSize.x / m_FramebufferSize.y; }

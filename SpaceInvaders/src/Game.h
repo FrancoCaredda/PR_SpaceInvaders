@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/Object.h"
+#include "GameObjects/GameObjectPool.h"
 #include "Core/Renderer.h"
 #include "Core/Spritesheet.h"
 
@@ -24,5 +24,5 @@ private:
 	SpritesheetLoader m_SpritesheetLoader;
 	Renderer m_Renderer;
 
-	std::vector<Object*> m_Objects;
+	GameObjectPool m_GameObjectPool;
 };

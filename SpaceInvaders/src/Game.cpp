@@ -1,5 +1,5 @@
 #include "Game.h"
-#include "Spaceship.h"
+#include "GameObjects/Spaceship.h"
 
 #include "raylib.h"
 
@@ -26,13 +26,13 @@ void Game::Init()
 	m_SpritesheetLoader.Load(std::filesystem::path(RESOURCE_DIR).concat("/SpaceInvaders_Ships.png"),
 		Vector2{ 20, 20 });
 
-	m_Objects.push_back(new Spaceship());
+	HideCursor();
+	m_GameObjectPool.AddObject<Spaceship>();
 }
 
 void Game::Start()
 {
-	for (Object* object : m_Objects)
-		object->Start();
+	m_GameObjectPool.StartObjects();
 }
 
 void Game::Run()
@@ -43,13 +43,16 @@ void Game::Run()
 		auto now = std::chrono::high_resolution_clock::now();
 		std::chrono::duration<double> deltaTime = now - prev;
 
+		prev = now;
+
 		BeginDrawing();
 		ClearBackground(Color{});
 
-		for (Object* object : m_Objects)
-			object->Update(deltaTime.count());
+		m_GameObjectPool.UpdateObjects(deltaTime.count());
+		m_GameObjectPool.UpdateProjectiles(deltaTime.count());
 
-		m_Renderer.DrawObjects(m_Objects);
+		m_Renderer.DrawObjects(m_GameObjectPool.GetObjects());
+		m_Renderer.DrawProjectiles(m_GameObjectPool.GetProjectiles());
 
 		EndDrawing();
 	}
@@ -57,8 +60,5 @@ void Game::Run()
 
 void Game::End()
 {
-	for (Object* object : m_Objects)
-		delete object;
-
 	CloseWindow();
 }
