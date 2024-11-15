@@ -7,12 +7,34 @@
 void Alien::Start() noexcept
 {
 	SpritesheetLoader& loader = SpritesheetLoader::GetInstance();
-	
 	m_Sprite.SpritesheetRef = &loader.GetSpritesheet("SpaceInvaders");
+
+
+	Reset();
+}
+
+void Alien::Update(float dt) noexcept
+{
+	m_Transform.Position.x += m_Direction.x * m_Speed * dt;
+	m_Transform.Position.y += m_Direction.y * m_Speed * dt;
+
+	if (m_Transform.Position.x > (950 - 80))
+		m_Direction = m_LeftDown;
+	else if (m_Transform.Position.x < 10)
+		m_Direction = m_RightDown;
+}
+
+void Alien::OnShotTriggerOverlapped() noexcept
+{
+	Reset();
+}
+
+void Alien::Reset() noexcept
+{
 	m_Sprite.X = rand() % 5;
 	m_Sprite.Y = rand() % 2;
 
-	m_Transform.Position = { (float)(rand() % 900), 0};
+	m_Transform.Position = { (float)(rand() % 900), 0 };
 	m_Transform.Scale = { 5, 5 };
 
 	Vector2 down{ 0, 1 };
@@ -36,16 +58,5 @@ void Alien::Start() noexcept
 	if (toLeft)
 		m_Direction = m_LeftDown;
 	else
-		m_Direction = m_RightDown;
-}
-
-void Alien::Update(float dt) noexcept
-{
-	m_Transform.Position.x += m_Direction.x * m_Speed * dt;
-	m_Transform.Position.y += m_Direction.y * m_Speed * dt;
-
-	if (m_Transform.Position.x > (950 - 80))
-		m_Direction = m_LeftDown;
-	else if (m_Transform.Position.x < 10)
 		m_Direction = m_RightDown;
 }

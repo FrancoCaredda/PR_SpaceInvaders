@@ -1,8 +1,6 @@
 #include "Game.h"
 
 #include "Core/Physics.h"
-
-
 #include "GameObjects/Alien.h"
 
 #include "raylib.h"
@@ -38,10 +36,9 @@ void Game::Init()
 
 	HideCursor();
 	m_Spaceship = m_GameObjectPool.AddObject<Spaceship>();
-	m_GameObjectPool.AddObject<Alien>();
-	m_GameObjectPool.AddObject<Alien>();
-	m_GameObjectPool.AddObject<Alien>();
-	m_GameObjectPool.AddObject<Alien>();
+
+	for (int i = 0; i < m_AlienCount; i++)
+		m_GameObjectPool.AddObject<Alien>();
 }
 
 void Game::Start()
@@ -59,20 +56,8 @@ void Game::Run()
 
 		prev = now;
 
-		const std::vector<Object*>& objects = m_GameObjectPool.GetObjects();
-
-		for (int i = 0; i < objects.size(); i++)
-		{
-			if (objects[i] != m_Spaceship)
-			{
-				Rectangle rect1 = m_Spaceship->GetBoundingBox();
-				Rectangle rect2 = objects[i]->GetBoundingBox();
-
-				if (Physics::AreRectanglesColliding(rect1, rect2))
-					std::cout << "Colliding!\n";
-			}
-		}
-
+		ProcessCollisions();
+		ProcessBulletsCollisions();
 		BeginDrawing();
 		ClearBackground(Color{});
 
@@ -80,10 +65,51 @@ void Game::Run()
 		m_GameObjectPool.UpdateProjectiles(deltaTime.count());
 
 		m_Renderer.DrawObjects(m_GameObjectPool.GetObjects());
-		m_Renderer.DrawBoundingBoxes(m_GameObjectPool.GetObjects());
 		m_Renderer.DrawProjectiles(m_GameObjectPool.GetProjectiles());
 
 		EndDrawing();
+	}
+}
+
+void Game::ProcessCollisions()
+{
+	const std::vector<Object*>& objects = m_GameObjectPool.GetObjects();
+
+	for (int i = 0; i < objects.size(); i++)
+	{
+		if (objects[i] != m_Spaceship)
+		{
+			Rectangle rect1 = m_Spaceship->GetBoundingBox();
+			Rectangle rect2 = objects[i]->GetBoundingBox();
+
+			if (Physics::AreRectanglesColliding(rect1, rect2))
+				m_Spaceship->OnTriggerOverlapped(objects[i]);
+		}
+	}
+}
+
+void Game::ProcessBulletsCollisions()
+{
+	const std::vector<Object*>& objects = m_GameObjectPool.GetObjects();
+	const std::vector<Projectile>& projectiles = m_GameObjectPool.GetProjectiles();
+
+	for (int i = 0; i < objects.size(); i++)
+	{
+		if (objects[i] != m_Spaceship)
+		{
+			for (const Projectile& projectile : projectiles)
+			{
+				Rectangle rect1 = projectile.GetBoundingBox();
+				Rectangle rect2 = objects[i]->GetBoundingBox();
+
+				if (Physics::AreRectanglesColliding(rect1, rect2))
+				{
+					objects[i]->OnShotTriggerOverlapped();
+					objects[i]->Reset();
+					const_cast<Projectile&>(projectile).Active = false;
+				}
+			}
+		}
 	}
 }
 

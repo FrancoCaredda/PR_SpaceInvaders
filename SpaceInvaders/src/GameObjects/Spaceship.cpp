@@ -62,3 +62,7 @@ void Spaceship::Update(float dt) noexcept
 		m_ShootingDelay = ShootingDelay;
 	}
 }
+
+void Spaceship::OnTriggerOverlapped(Object* other) noexcept
+{
+}

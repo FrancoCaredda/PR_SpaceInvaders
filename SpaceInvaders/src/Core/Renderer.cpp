@@ -75,8 +75,8 @@ void Renderer::DrawProjectiles(const std::vector<Projectile>& projectiles)
 	{
 		if (projectile.Active)
 		{
-			DrawCircle(projectile.Tranform.Position.x,
-				projectile.Tranform.Position.y,
+			DrawCircle(projectile.ProjectileTranform.Position.x,
+				projectile.ProjectileTranform.Position.y,
 				projectile.Radius,
 				projectile.ProjectileColor);
 		}

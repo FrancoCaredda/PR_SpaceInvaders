@@ -8,8 +8,11 @@ public:
 	Alien() = default;
 	~Alien() = default;
 
-	void Start() noexcept override;
-	void Update(float dt) noexcept override;
+	virtual void Start() noexcept override;
+	virtual void Update(float dt) noexcept override;
+
+	virtual void OnShotTriggerOverlapped() noexcept;
+	virtual void Reset() noexcept;
 private:
 	Vector2 m_Direction;
 	Vector2 m_RightDown{ 1, 1 };

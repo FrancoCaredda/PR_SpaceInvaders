@@ -8,8 +8,9 @@ public:
 	Spaceship() = default;
 	~Spaceship() = default;
 
-	void Start() noexcept override;
-	void Update(float dt) noexcept override;
+	virtual void Start() noexcept override;
+	virtual void Update(float dt) noexcept override;
+	virtual void OnTriggerOverlapped(Object* other) noexcept override;
 private:
 	const float ShootingDelay = 0.25f;
 

@@ -26,7 +26,7 @@ Projectile* GameObjectPool::SpawnProjectile(Vector2 position) noexcept
 	{
 		if (!projectile.Active)
 		{
-			projectile.Tranform.Position = position;
+			projectile.ProjectileTranform.Position = position;
 			projectile.Active = true;
 
 			return &projectile;
@@ -54,7 +54,7 @@ void GameObjectPool::UpdateProjectiles(float dt) noexcept
 	{
 		if (projectile.Active)
 		{
-			projectile.Tranform.Position.y -= projectile.Velocity * dt;
+			projectile.ProjectileTranform.Position.y -= projectile.Velocity * dt;
 
 			projectile.Lifetime -= dt;
 
