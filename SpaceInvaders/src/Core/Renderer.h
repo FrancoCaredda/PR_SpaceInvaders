@@ -15,6 +15,7 @@ public:
 	void SetFramebufferSize(const Vector2& size);
 
 	void DrawObjects(const std::vector<class Object*>& objects);
+	void DrawBoundingBoxes(const std::vector<class Object*>& objects);
 	void DrawProjectiles(const std::vector<struct Projectile>& projectiles);
 
 	inline Vector2 GetFramebufferSize() const noexcept { return m_FramebufferSize; }

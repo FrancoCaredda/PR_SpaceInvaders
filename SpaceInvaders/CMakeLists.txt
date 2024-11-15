@@ -19,7 +19,9 @@ add_executable(${PROJECT_NAME} "src/main.cpp"
 "src/Core/Components.h" 
 "src/GameObjects/GameObjectPool.h"
 "src/GameObjects/GameObjectPool.cpp"
-"src/GameObjects/Projectile.h")
+"src/GameObjects/Projectile.h" 
+"src/GameObjects/Alien.h"
+"src/GameObjects/Alien.cpp" "src/Core/Physics.h" "src/Core/Physics.cpp")
 add_compile_definitions(RESOURCE_DIR="${CMAKE_SOURCE_DIR}/assets")
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_SOURCE_DIR}/include"
 												  "${CMAKE_CURRENT_SOURCE_DIR}/src")

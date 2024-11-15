@@ -46,10 +46,26 @@ void Renderer::DrawObjects(const std::vector<Object*>& objects)
 		DrawTexturePro(spritesheet->GetNative(),
 			source,
 			boundingBox,
-			{ -transform.Position.x - boundingBox.width / 8.0f, -transform.Position.y },
+			{ -transform.Position.x , -transform.Position.y },
 			0,
 			RAYWHITE);
 
+	}
+}
+
+void Renderer::DrawBoundingBoxes(const std::vector<class Object*>& objects)
+{
+	for (Object* object : objects)
+	{
+		Transform2D transform = object->GetTransform();
+
+		Rectangle boundingBox = object->GetBoundingBox();
+
+		DrawRectangleLines(boundingBox.x,
+			boundingBox.y,
+			boundingBox.width,
+			boundingBox.height,
+			Color{0, 255, 0, 255});
 	}
 }
 

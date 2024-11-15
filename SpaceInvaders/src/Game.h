@@ -1,5 +1,6 @@
 #pragma once
 
+#include "GameObjects/Spaceship.h"
 #include "GameObjects/GameObjectPool.h"
 #include "Core/Renderer.h"
 #include "Core/Spritesheet.h"
@@ -25,4 +26,5 @@ private:
 	Renderer m_Renderer;
 
 	GameObjectPool m_GameObjectPool;
+	Spaceship* m_Spaceship;
 };
