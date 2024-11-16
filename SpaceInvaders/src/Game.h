@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Core/Object.h"
+#include "GameObjects/Spaceship.h"
+#include "GameObjects/GameObjectPool.h"
 #include "Core/Renderer.h"
 #include "Core/Spritesheet.h"
 
@@ -19,10 +20,16 @@ public:
 	void Run();
 	void End();
 private:
+	void ProcessCollisions();
+	void ProcessBulletsCollisions();
+private:
 	static Game* s_Instance;
 
 	SpritesheetLoader m_SpritesheetLoader;
 	Renderer m_Renderer;
 
-	std::vector<Object*> m_Objects;
+	GameObjectPool m_GameObjectPool;
+	Spaceship* m_Spaceship;
+
+	int m_AlienCount = 10;
 };

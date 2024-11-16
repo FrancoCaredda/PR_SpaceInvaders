@@ -1,6 +1,9 @@
 #include "Renderer.h"
 #include "Components.h"
 #include "Spritesheet.h"
+#include "Object.h"
+
+#include "GameObjects/Projectile.h"
 
 #include <stdexcept>
 
@@ -36,13 +39,47 @@ void Renderer::DrawObjects(const std::vector<Object*>& objects)
 			cellDimension.x, cellDimension.y
 		};
 
+		Rectangle boundingBox = object->GetBoundingBox();
+		boundingBox.x = 0;
+		boundingBox.y = 0;
+
 		DrawTexturePro(spritesheet->GetNative(),
 			source,
-			object->GetBoundingBox(),
-			{ -transform.Position.x, -transform.Position.y },
+			boundingBox,
+			{ -transform.Position.x , -transform.Position.y },
 			0,
 			RAYWHITE);
 
+	}
+}
+
+void Renderer::DrawBoundingBoxes(const std::vector<class Object*>& objects)
+{
+	for (Object* object : objects)
+	{
+		Transform2D transform = object->GetTransform();
+
+		Rectangle boundingBox = object->GetBoundingBox();
+
+		DrawRectangleLines(boundingBox.x,
+			boundingBox.y,
+			boundingBox.width,
+			boundingBox.height,
+			Color{0, 255, 0, 255});
+	}
+}
+
+void Renderer::DrawProjectiles(const std::vector<Projectile>& projectiles)
+{
+	for (const Projectile& projectile : projectiles)
+	{
+		if (projectile.Active)
+		{
+			DrawCircle(projectile.ProjectileTranform.Position.x,
+				projectile.ProjectileTranform.Position.y,
+				projectile.Radius,
+				projectile.ProjectileColor);
+		}
 	}
 }
 
